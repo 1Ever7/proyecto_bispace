@@ -1,0 +1,67 @@
+{
+  "name": "asistenteapi",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "test": "tsx src/test/test.ts",
+    "dev": "tsx src/index.ts",
+    "mcp": "tsx src/mcp/mcpServer.ts",
+    "mcptest": "tsx src/mcp/mcpminimal.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev:mcp": "tsx src/mcp/mcpServer.ts"
+  },
+  "keywords": [
+    "api",
+    "assistant",
+    "mcp",
+    "ai",
+    "documentation"
+  ],
+  "author": "Ever Quispe Apaza",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "description": "Asistente de APIs con soporte MCP para documentación automática y consultas inteligentes",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.3.0",
+    "@types/node-fetch": "^2.6.13",
+    "@types/redis": "^4.0.10",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-parser": "^4.0.3",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/yaml": "^1.9.6",
+    "cross-env": "^10.0.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.17.3",
+    "@types/winston": "^2.4.4",
+    "axios": "^1.11.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "openai": "^5.11.0",
+    "socket.io": "^4.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.76"
+  }
+}

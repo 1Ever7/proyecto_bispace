@@ -1,0 +1,422 @@
+// src/config/apis.config.ts
+export interface APIConfig {
+  id: string;
+  name: string;
+  baseUrl: string;
+  type: 'json' | 'swagger' | 'mixed';
+  description: string;
+  endpoints?: EndpointConfig[];
+  authentication?: AuthConfig;
+  healthCheck?: string;
+  swaggerUrl?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface EndpointConfig {
+  path: string;
+  method: string;
+  description: string;
+  parameters?: ParameterConfig[];
+  responseSchema?: any;
+  tags?: string[];
+}
+
+export interface ParameterConfig {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  in: 'query' | 'path' | 'body' | 'header';
+  default?: any;
+  enum?: string[];
+}
+
+export interface AuthConfig {
+  type: 'none' | 'bearer' | 'apiKey' | 'oauth2';
+  token?: string;
+  key?: string;
+  value?: string;
+  tokenUrl?: string;
+  scopes?: Record<string, string>;
+}
+
+export interface APIConfig {
+  id: string;
+  name: string;
+  baseUrl: string;
+  type: 'json' | 'swagger' | 'mixed';
+  description: string;
+  endpoints?: EndpointConfig[];
+  authentication?: AuthConfig;
+  healthCheck?: string;
+  swaggerUrl?: string;  
+  metadata?: Record<string, any>;
+}
+
+// Configuración específica para Sabi API
+export const apiConfigs: APIConfig[] = [
+  {
+    id: 'sabi',
+    name: 'sabi-api',
+    baseUrl: 'https://sabi.bispace.site/api',
+    type: 'json',
+    description: 'Sistema de Gestión de Activos y Usuarios de la Empresa',
+    endpoints: [
+    {
+      path: '/usr',
+      method: 'GET',
+      description: 'Gestión de usuarios del sistema',
+      parameters: [
+        {
+          name: 'estado',
+          type: 'string',
+          required: false,
+          description: 'Filtrar por estado (activo/inactivo)',
+          in: 'query'
+        }
+      ]
+    },
+   {
+  path: '/cantidad',
+  method: 'GET',
+  description: 'Cantidad total de activos',
+  parameters: []
+},
+{
+  path: '/cantidad/marcas',
+  method: 'GET',
+  description: 'Cantidad de activos por marca',
+  parameters: []
+},
+{
+  path: '/cantidad/uso',
+  method: 'GET',
+  description: 'Cantidad de activos en uso',
+  parameters: []
+},
+{
+  path: '/cantidad/baja',
+  method: 'GET',
+  description: 'Cantidad de activos dados de baja',
+  parameters: []
+},
+{
+  path: '/cantidad/mantenimiento',
+  method: 'GET',
+  description: 'Cantidad de activos en mantenimiento',
+  parameters: []
+},
+{
+  path: '/cantidad/disponible',
+  method: 'GET',
+  description: 'Cantidad de activos disponibles',
+  parameters: []
+},
+{
+  path: '/cantidad/depreciados',
+  method: 'GET',
+  description: 'Cantidad de activos depreciados',
+  parameters: []
+},
+{
+  path: '/cantidad/revalorizados',
+  method: 'GET',
+  description: 'Cantidad de activos revalorizados',
+  parameters: []
+},
+{
+  path: '/cantidad/edificios',
+  method: 'GET',
+  description: 'Cantidad de activos por edificio',
+  parameters: []
+},
+{
+  path: '/cantidad/req_mantenimiento',
+  method: 'GET',
+  description: 'Activos que requieren mantenimiento',
+  parameters: []
+},
+    {
+      path: '/act_alta',
+      method: 'GET',
+      description: 'Registro de altas de activos',
+      parameters: []
+    },
+    {
+      path: '/act_alta/empleadoalta',
+      method: 'GET',
+      description: 'Registro de altas de activos',
+      parameters: []
+    },
+    {
+      path: '/ambiente',
+      method: 'GET',
+      description: 'Gestión de ambientes/locations',
+      parameters: []
+    },
+    {
+      path: '/backup',
+      method: 'GET',
+      description: 'Sistema de backups',
+      parameters: []
+    },
+    {
+      path: '/baja',
+      method: 'GET',
+      description: 'Registro de bajas de activos',
+      parameters: []
+    },
+ {
+      path: '/activo',
+      method: 'GET',
+      description: 'Lista de activos de la empresa',
+      parameters: [
+        {
+          name: 'categoria',
+          type: 'string',
+          required: false,
+          description: 'Filtrar por categoría de activo',
+          in: 'query'
+        }
+      ]
+    },
+     {
+      path: '/activo/cantidadtipos',
+      method: 'GET',
+      description: 'Lista de activos de la empresa',
+      parameters: [
+        {
+          name: 'categoria',
+          type: 'string',
+          required: false,
+          description: 'Filtrar por categoría de activo',
+          in: 'query'
+        }
+      ]
+    },
+    {
+      path: '/condicion',
+      method: 'GET',
+      description: 'Estados y condiciones de activos',
+      parameters: []
+    },
+    {
+      path: '/depreciacion',
+      method: 'GET',
+      description: 'Cálculos de depreciación',
+      parameters: []
+    },
+    {
+      path: '/devolucion',
+      method: 'GET',
+      description: 'Sistema de devoluciones',
+      parameters: []
+    },
+    {
+      path: '/edificio',
+      method: 'GET',
+      description: 'Gestión de edificios',
+      parameters: []
+    },
+    {
+      path: '/funcionario',
+      method: 'GET',
+      description: 'Información de funcionarios',
+      parameters: []
+    },
+    {
+      path: '/historial',
+      method: 'GET',
+      description: 'Historial de cambios y movimientos',
+      parameters: []
+    },
+    {
+      path: '/mantenimiento',
+      method: 'GET',
+      description: 'Registro de mantenimientos',
+      parameters: []
+    },
+    {
+      path: '/programa',
+      method: 'GET',
+      description: 'Programas y proyectos',
+      parameters: []
+    },
+    {
+      path: '/proveedor',
+      method: 'GET',
+      description: 'Gestión de proveedores',
+      parameters: []
+    },
+    {
+      path: '/proyecto',
+      method: 'GET',
+      description: 'Proyectos de la empresa',
+      parameters: []
+    },
+    {
+      path: '/revalorizacion',
+      method: 'GET',
+      description: 'Revalorizaciones de activos',
+      parameters: []
+    },
+    {
+      path: '/rubro',
+      method: 'GET',
+      description: 'Rubros y categorías',
+      parameters: []
+    },
+    {
+      path: '/tipoactivo',
+      method: 'GET',
+      description: 'Tipos de activos',
+      parameters: []
+    },
+    {
+      path: '/ubicacion',
+      method: 'GET',
+      description: 'Ubicaciones físicas',
+      parameters: []
+    },
+    {
+      path: '/generarQR/listarQR',
+      method: 'GET',
+      description: 'Generación de códigos QR',
+      parameters: [
+        {
+          name: 'id',
+          type: 'string',
+          required: true,
+          description: 'ID del elemento para generar QR',
+          in: 'query'
+        }
+      ]
+    }
+  ],
+  healthCheck: '/usr'
+},
+//api electrovote
+{
+  id: 'trendvoto',
+  name: 'trendvoto-api',
+  baseUrl: 'https://trendvoto.bispace.site/api',
+  type: 'json',
+  description: 'Sistema de Gestión Geo-Electoral y Resultados Electorales',
+  endpoints: [
+    // Módulo usuarios
+    { path: '/registro', method: 'GET', description: 'reguistros de votos ' },
+    { path: '/usuarios', method: 'GET', description: 'usuarios' },
+    { path: '/personas', method: 'GET', description: 'personas' },
+    { path: '/personas/sexo/todos', method: 'GET', description: 'personas genero' },
+    { path: '/personas/tipo_usuario/todos', method: 'GET', description: 'tipo de usuario' },
+    { path: '/personas/expedicion/todos', method: 'GET', description: 'DNI o CI expedidos' },
+
+    // Módulo geo
+    { path: '/geo/buscarEstado', method: 'GET', description: 'Buscar estado' },
+    { path: '/geo/listarUnEstado/:id', method: 'GET', description: 'Listar un estado por ID' },
+    { path: '/geo/listarCircunscripciones/:dep_id', method: 'GET', description: 'Listar circunscripciones por departamento' },
+    { path: '/geo/listarProvincias/:cod_depto/:id_circun', method: 'GET', description: 'Listar provincias por departamento y circunscripción' },
+    { path: '/geo/listarMunicipios/:id_prov', method: 'GET', description: 'Listar municipios por provincia' },
+    { path: '/geo/listarRecintos/:cod_mun', method: 'GET', description: 'Listar recintos por municipio' },
+    { path: '/geo/listarMesas/:cod_mun/:cod_reci', method: 'GET', description: 'Listar mesas por recinto y municipio' },
+    { path: '/geo/listarMesas/:cod_mun/:cod_reci/:nom_reci', method: 'GET', description: 'Listar mesas disponibles' },
+    { path: '/geo/listarMunicipios/:id_prov/:id_circun', method: 'GET', description: 'Listar municipios por provincia y circunscripción' },
+    { path: '/geo/listarRecintos/:cod_mun/:id_circun', method: 'GET', description: 'Listar recintos por municipio y circunscripción' },
+    { path: '/geo/listarDelegados', method: 'GET', description: 'Obtener todos los delegados' },
+    { path: '/geo/obtenerDelegado/:id', method: 'GET', description: 'Obtener delegado por ID' },
+    { path: '/geo/nombreReci/:cod_mesa', method: 'GET', description: 'Obtener nombre de recinto por mesa' },
+    { path: '/geo/buscarDistrito/:id', method: 'GET', description: 'Buscar distrito' },
+    { path: '/geo/listarUnDistrito/:est_id/:dis_id', method: 'GET', description: 'Listar un distrito' },
+    { path: '/geo/buscarSeccion/:est_id/:dis_id', method: 'GET', description: 'Buscar sección' },
+    { path: '/geo/listarUnSeccion/:est_id/:dis_id/:mun_id/:sec_id', method: 'GET', description: 'Listar una sección' },
+    { path: '/geo/buscarMunicipio/:est_id/:cod_prov', method: 'GET', description: 'Buscar municipio' },
+    { path: '/geo/listarUnMunicipio/:est_id/:mun_id', method: 'GET', description: 'Listar un municipio' },
+    { path: '/geo/buscarColonia/:est_id/:mun_id', method: 'GET', description: 'Buscar colonia' },
+    { path: '/geo/buscarColonia/:est_id/:mun_id/:sec_id', method: 'GET', description: 'Buscar colonia por sección' },
+    { path: '/geo/listarUnColonia/:est_id/:mun_id/:col_id', method: 'GET', description: 'Listar una colonia' },
+    { path: '/geo/listarUnColonia/:est_id/:mun_id/:col_id/:sec_id', method: 'GET', description: 'Listar una colonia por sección' },
+    { path: '/geo/buscarCiudad', method: 'GET', description: 'Buscar ciudad' },
+    { path: '/geo/listarUnCiudad/:id', method: 'GET', description: 'Listar una ciudad' },
+    { path: '/geo/buscarComunidades/:id_municipio/:id_area', method: 'GET', description: 'Buscar comunidades' },
+    { path: '/geo/listarUnComunidadRecinto/:com_id', method: 'GET', description: 'Listar comunidad recinto' },
+    { path: '/geo/listarUnComunidad/:com_id', method: 'GET', description: 'Listar una comunidad' },
+    { path: '/geo/buscarCiudadesFiltro/:id_municipio/:id_area', method: 'GET', description: 'Buscar ciudades con filtro' },
+    { path: '/geo/listarUnCiudadFiltro/:id_municipio/:ciu_id', method: 'GET', description: 'Listar una ciudad con filtro' },
+    { path: '/geo/buscarZonas/:id_municipio/:id_ciudad', method: 'GET', description: 'Buscar zonas' },
+    { path: '/geo/listarUnZonas/:cod_zona', method: 'GET', description: 'Listar zonas' },
+    { path: '/geo/listarUnZona/:cod_zona', method: 'GET', description: 'Listar una zona' },
+    { path: '/geo/buscarRecintoSinZona/:id_municipio/:id_ciudad', method: 'GET', description: 'Buscar recintos sin zona' },
+    { path: '/geo/listarUnRecintoSinZona/:id_municipio/:ciu_id', method: 'GET', description: 'Listar un recinto sin zona' },
+    { path: '/geo/buscarRecinto/:id_municipio/:id_zona', method: 'GET', description: 'Buscar recinto' },
+    { path: '/geo/buscarRecintoZona/:id_municipio/:area', method: 'GET', description: 'Buscar recinto por zona' },
+    { path: '/geo/buscarRecintoComunidad/:id_municipio/:area', method: 'GET', description: 'Buscar recinto por comunidad' },
+    { path: '/geo/getRecintos', method: 'GET', description: 'Obtener recintos' },
+    { path: '/geo/buscarCircunscripcion', method: 'GET', description: 'Buscar circunscripción' },
+    { path: '/geo/listarUnCircunscripcion/:id', method: 'GET', description: 'Listar una circunscripción' },
+    { path: '/geo/listarRecintosGeo/geo/:id_circunscripcion', method: 'GET', description: 'Listar recintos geo' },
+    { path: '/geo/detalleRecinto/geo/lista/:id_recinto/:id_circ', method: 'GET', description: 'Detalle de recinto' },
+
+    // Módulo geoportal
+    { path: '/geoportal/cargar_capa/participacion', method: 'GET', description: 'Cargar capa de participación' },
+    { path: '/geoportal/datos/:esquema/:tabla/:columna/:id', method: 'GET', description: 'Obtener datos con rupturas de Jenks' },
+    { path: '/geoportal/cargar_nombre_tablas', method: 'GET', description: 'Cargar nombre de tablas' },
+    { path: '/geoportal/eliminar_tablas/:nombre_tabla', method: 'GET', description: 'Eliminar tablas' },
+    { path: '/geoportal/detalle_tabla/:nombre_tabla', method: 'GET', description: 'Detalle de tabla' },
+    { path: '/geoportal/detalle_tabla_id/:reg_id', method: 'GET', description: 'Detalle de tabla por ID' },
+    { path: '/geoportal/detalle_atributos_id/:reg_id/:id', method: 'GET', description: 'Detalle de atributos por ID' },
+    { path: '/geoportal/cargar_capa/:nombre_tabla', method: 'GET', description: 'Cargar capa' },
+    { path: '/geoportal/detalle_valor_tabla/:nombre_tabla/:campo/:clase', method: 'GET', description: 'Detalle de valor de tabla' },
+    { path: '/geoportal/datosEstadisticosEstados/:est_id', method: 'GET', description: 'Datos estadísticos de estados' },
+    { path: '/geoportal/datosEstadisticosDistritos/:est_id/:dis_id', method: 'GET', description: 'Datos estadísticos de distritos' },
+    { path: '/geoportal/datosEstadisticosMunicipios/:est_id/:mun_id', method: 'GET', description: 'Datos estadísticos de municipios' },
+    { path: '/geoportal/datosEstadisticosSeccion/:est_id/:dis_id/:sec_id', method: 'GET', description: 'Datos estadísticos de sección' },
+    { path: '/geoportal/datosEstadisticosBolivia/:anio?/:dep_id?/:prov_id?/:mun_id?/:sec_id?/:rec_id?', method: 'GET', description: 'Datos estadísticos de Bolivia' },
+    { path: '/geoportal/datosEstadisticosCiudadFiltro/:anio?/:id_ciudad?', method: 'GET', description: 'Datos estadísticos de ciudad con filtro' },
+    { path: '/geoportal/datosEstadisticosCircunscripcionFiltro/:anio?/:id_circunscripcion?', method: 'GET', description: 'Datos estadísticos de circunscripción con filtro' },
+    { path: '/geoportal/datosEstadisticosZonaFiltro/:anio/:id_zona', method: 'GET', description: 'Datos estadísticos de zona con filtro' },
+    { path: '/geoportal/datosEstadisticosGeneral/:year', method: 'GET', description: 'Datos estadísticos generales' },
+    { path: '/geoportal/datosEstadisticosRecinto/:id_recinto', method: 'GET', description: 'Datos estadísticos de recinto' },
+    { path: '/geoportal/datosEstadisticosCiudad/:id_ciudad', method: 'GET', description: 'Datos estadísticos de ciudad' },
+    { path: '/geoportal/datosEstadisticosCircunscripcion/:id_circunscripcion', method: 'GET', description: 'Datos estadísticos de circunscripción' },
+
+    // Módulo imageLector
+    { path: '/readImage/read', method: 'GET', description: 'Leer imagen en base64' },
+
+    // Módulo auth
+    { path: '/auth/renew', method: 'GET', description: 'Renovar token' },
+
+    // Módulo resultadosElectorales
+    { path: '/resultados/getResultados', method: 'GET', description: 'Obtener resultados electorales' },
+    { path: '/resultados/getVotos', method: 'GET', description: 'Obtener votos' },
+    { path: '/resultados/readImages/:fileImage', method: 'GET', description: 'Leer imágenes de actas' },
+    { path: '/resultados/proxyImageActa/:fileImage', method: 'GET', description: 'Proxy de imágenes de actas' },
+    { path: '/resultados/graficoGeneral', method: 'GET', description: 'Gráfico general' },
+    { path: '/resultados/graficoDepartamento/:id_depto', method: 'GET', description: 'Gráfico por departamento' },
+    { path: '/resultados/graficoCircunscripcion/:id_circunscripcion', method: 'GET', description: 'Gráfico por circunscripción' },
+    { path: '/resultados/graficoProviciaDepartamento/:id_depto/:cod_prov', method: 'GET', description: 'Gráfico por provincia y departamento' },
+    { path: '/resultados/graficoProvicia/:num_cir/:cod_prov', method: 'GET', description: 'Gráfico por provincia' },
+    { path: '/resultados/graficoMunicipio/:cod_prov/:cod_mun', method: 'GET', description: 'Gráfico por municipio' },
+    { path: '/resultados/graficoRegion/:cod_mun/:region', method: 'GET', description: 'Gráfico por región' },
+    { path: '/resultados/graficoRecinto/:cod_mun/:cod_reci', method: 'GET', description: 'Gráfico por recinto' },
+    { path: '/resultados/graficoMesa/:cod_reci/:cod_mesa', method: 'GET', description: 'Gráfico por mesa' },
+
+  ],
+  healthCheck: '/registro'
+}
+
+//se agregan mas APIs aqui
+];
+
+export const getAPIConfig = (apiId: string): APIConfig | undefined => {
+  return apiConfigs.find(api => api.id === apiId);
+};
+
+export const getAllAPIConfigs = (): APIConfig[] => {
+  return apiConfigs;
+};
+
+// Función para obtener todos los apiIds disponibles
+export const getAvailableAPIIds = (): string[] => {
+  return apiConfigs.map(api => api.id);
+};
+
