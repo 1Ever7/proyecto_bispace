@@ -1,88 +1,32 @@
-// chat.routes.ts (corregido)
 import { Router } from 'express';
 import { chatController } from '../controllers/chat.controller';
+import { validateChatRequest } from '../middleware/validation/apiValidation';
+import { chatRateLimiter } from '../middleware/rateLimiter';
+import { asyncHandler } from '../utils/errorHandler';
 
 const router = Router();
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     ChatRequest:
- *       type: object
- *       required:
- *         - question
- *       properties:
- *         question:
- *           type: string
- *           example: ¿Cómo crear un nuevo activo?
- *         model:
- *           type: string
- *           enum: [claude, gemini]
- *           default: claude
- *         targetAPI:
- *           type: string
- *           description: API específica a consultar (obsoleto, usar apiId)
- *           example: sabi
- *         apiId:
- *           type: string
- *           enum: [sabi, rh, nueva-api] // Actualizar con las APIs disponibles
- *           default: sabi
- *           description: ID de la API específica a consultar
- *           example: sabi
- *     ChatResponseData:
- *       type: object
- *       properties:
- *         answer:
- *           type: string
- *         context:
- *           type: string
- *         relevantAPIs:
- *           type: array
- *           items:
- *             type: string
- *         availableAPIs:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *               name:
- *                 type: string
- *         specifiedAPI:
- *           type: string
- *     ChatResponse:
- *       type: object
- *       properties:
- *         success:
- *           type: boolean
- *         data:
- *           $ref: '#/components/schemas/ChatResponseData'
- *         error:
- *           type: string
- *         message:
- *           type: string
- *         timestamp:
- *           type: string
- */
-
-/**
- * @swagger
  * tags:
  *   name: Chat
- *   description: Endpoints para interactuar con modelos de IA
+ *   description: Chat inteligente con integración dinámica de APIs
  */
+
+router.use(chatRateLimiter);
 
 /**
  * @swagger
- * /api/chat:
+ * /api/chat/message:
  *   post:
- *     summary: Responde preguntas sobre múltiples APIs
- *     description: |
- *       Permite hacer preguntas a la IA utilizando datos de APIs específicas.
- *       Puedes especificar una API concreta usando el parámetro apiId.
+ *     summary: Enviar mensaje al asistente de IA con integración de APIs
  *     tags: [Chat]
+ *     description: >
+ *       Procesa un mensaje utilizando modelos de IA (Gemini o Claude) con capacidad de
+ *       detectar automáticamente APIs relevantes y consultarlas para obtener datos reales
+ *       antes de generar una respuesta contextualizada.
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -90,55 +34,53 @@ const router = Router();
  *           schema:
  *             $ref: '#/components/schemas/ChatRequest'
  *           examples:
- *             preguntaGeneral:
- *               summary: Pregunta general (detección automática)
+ *             simpleMessage:
+ *               summary: Mensaje simple con detección automática
  *               value:
- *                 question: "¿Cuántos activos tenemos?"
+ *                 message: "Lista los usuarios del sistema de activos"
  *                 model: "claude"
- *             preguntaEspecifica:
- *               summary: Pregunta para API específica
+ *             specificAPI:
+ *               summary: Mensaje con API específica
  *               value:
- *                 question: "¿Cuántos usuarios activos hay?"
- *                 model: "claude"
+ *                 message: "Obtén los usuarios activos"
  *                 apiId: "sabi"
+ *                 model: "gemini"
+ *                 temperature: 0.7
+ *             conversation:
+ *               summary: Conversación con historial
+ *               value:
+ *                 messages:
+ *                   - role: "user"
+ *                     content: "Hola, necesito información del sistema"
+ *                   - role: "assistant"
+ *                     content: "¡Hola! ¿De qué sistema necesitas información?"
+ *                   - role: "user"
+ *                     content: "Del sistema de activos, quiero ver los usuarios"
+ *                 model: "claude"
+ *                 temperature: 0.5
  *     responses:
  *       200:
- *         description: Respuesta generada por IA
+ *         description: Respuesta exitosa del asistente de IA
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ChatResponse'
+ *             example:
+ *               success: true
+ *               data:
+ *                 response: "## Lista de Usuarios del Sistema Sabi\n\nDe acuerdo con los datos del sistema, hay 3 usuarios registrados:\n\n| ID | Nombre | Email | Departamento |\n|----|--------|-------|-------------|\n| 1 | Juan Pérez | juan@empresa.com | Ventas |\n| 2 | María García | maria@empresa.com | IT |\n| 3 | Carlos López | carlos@empresa.com | Recursos Humanos |\n\n*Total: 3 usuarios activos*"
+ *                 processingTime: "1250ms"
+ *                 usedModel: "claude"
+ *                 apiData: "Datos de API: sabi"
+ *                 relevantAPIs: ["sabi"]
+ *               timestamp: "2024-01-15T10:30:00.000Z"
  *       400:
- *         description: Parámetros inválidos
+ *         $ref: '#/components/responses/ValidationError'
  *       429:
- *         description: Límite de tasa excedido
+ *         $ref: '#/components/responses/RateLimitError'
  *       500:
- *         description: Error interno del servidor
+ *         $ref: '#/components/responses/ErrorResponse'
  */
-
-router.get('/status', (req, res) => res.json({ message: 'Chat API funcionando' }));
-router.post('/', chatController.handleApiQuestion);
-
-/**
- * @swagger
- * /api/chat/summary:
- *   post:
- *     summary: Obtener resumen de todos los sistemas disponibles
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               model:
- *                 type: string
- *                 enum: [claude, gemini]
- *                 default: claude
- *     responses:
- *       200:
- *         description: Resumen ejecutivo de sistemas
- */
-router.post('/summary', chatController.getSystemsSummary);
-
+router.post('/message', validateChatRequest, asyncHandler(chatController.handleMessage));
 
 export default router;

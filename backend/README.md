@@ -31,3 +31,30 @@ npm install swagger-jsdoc swagger-ui-express
 
 npm install --save-dev @types/openapi-types @types/express
 npm install swagger-jsdoc swagger-ui-express
+
+  Frontend
+# Proyecto base
+npx nuxi init frontend 
+ cd frontend 
+  npm install
+# con vue 3 -  netx
+
+# Estilos
+npm install -D tailwindcss postcss autoprefixer
+
+npm install naive-ui   # o vuetify si prefieres Material Design
+
+# APIs
+npm install axios @tanstack/vue-query
+
+# Chat IA en tiempo real
+npm install socket.io-client
+
+# Autenticación
+npm install @sidebase/nuxt-auth
+
+# Swagger Docs
+npm install swagger-ui-dist
+
+# Gráficas
+npm install echarts vue-echarts

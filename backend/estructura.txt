@@ -1,0 +1,56 @@
+src/
+│
+├── config/                 # Configuraciones
+│   ├── apis.config.ts     # Configuración de APIs
+│   ├── ia.config.ts       # Configuración de IA
+│   └── constants.ts       # Constantes globales
+│
+├── controllers/           # Controladores
+│   ├── api.controller.ts  # Controlador unificado de API
+│   └── chat.controller.ts # Controlador de chat
+│
+├── middleware/            # Middleware
+│   ├── validation/        # Validaciones
+│   │   ├── apiValidator.ts
+│   │   └── schemaValidator.ts
+│   ├── errorHandler.ts    # Manejo de errores
+│   └── rateLimiter.ts     # Limitación de tasa
+│
+├── routes/                # Rutas
+│   ├── api.routes.ts      # Rutas de API
+│   └── chat.routes.ts     # Rutas de chat
+│
+├── services/              # Servicios
+│   ├── api/               # Servicios de API
+│   │   ├── ApiService.ts          # Servicio principal de API
+│   │   ├── ApiRegistry.ts         # Registro de APIs
+│   │   └── types/                 # Tipos de API
+│   │       └── api.types.ts
+│   ├── ai/                # Servicios de IA
+│   │   ├── AIService.ts           # Servicio principal de IA
+│   │   ├── providers/             # Proveedores de IA
+│   │   │   ├── ClaudeService.ts
+│   │   │   ├── GeminiService.ts
+│   │   │   └── AIFactory.ts       # Fábrica de servicios de IA
+│   │   └── types/                 # Tipos de IA
+│   │       └── ai.types.ts
+│   └── health/            # Servicios de salud
+│       └── HealthService.ts
+│
+├── types/                 # Tipos globales
+│   └── global.types.ts
+│
+├── utils/                 # Utilidades
+│   ├── logger.ts          # Logger
+│   ├── formatters/        # Formateadores
+│   │   ├── apiResponseFormatter.ts
+│   │   └── dataFormatter.ts
+│   ├── swagger/           # Swagger
+│   │   ├── swaggerSetup.ts
+│   │   └── docs/          # Documentación
+│   │       └── api.yaml
+│   └── helpers/           # Helpers
+│       ├── apiHelpers.ts
+│       └── stringHelpers.ts
+│
+└── index.ts               # Punto de entrada

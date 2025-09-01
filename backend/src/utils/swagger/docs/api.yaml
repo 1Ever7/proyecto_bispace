@@ -1,0 +1,131 @@
+# src/swagger/docs/api.yaml
+paths:
+  /api/chat/message:
+    post:
+      tags:
+        - Chat
+      summary: Enviar mensaje al asistente de IA
+      description: |
+        Procesa un mensaje utilizando modelos de IA (Gemini o Claude) y devuelve una respuesta.
+        Soporta tanto mensajes individuales como conversaciones con historial.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+            examples:
+              singleMessage:
+                summary: Mensaje simple
+                value:
+                  message: "¿Cómo puedo crear un usuario?"
+                  model: "gemini"
+                  temperature: 0.7
+              conversation:
+                summary: Conversación con historial
+                value:
+                  messages:
+                    - role: "user"
+                      content: "Hola, necesito ayuda con la API"
+                    - role: "assistant"
+                      content: "¡Hola! Estoy aquí para ayudarte. ¿En qué necesitas ayuda?"
+                    - role: "user"
+                      content: "¿Cómo creo un nuevo usuario?"
+                  model: "claude"
+                  temperature: 0.5
+                  maxTokens: 500
+      responses:
+        '200':
+          description: Respuesta exitosa del modelo de IA
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+              examples:
+                success:
+                  summary: Respuesta exitosa
+                  value:
+                    success: true
+                    message: "Message processed successfully"
+                    data:
+                      response: "Para crear un usuario, puedes usar el endpoint POST /api/users con los siguientes campos requeridos..."
+                      model: "gemini-1.5-pro"
+                      tokens: 150
+                      processingTime: 1250
+        '400':
+          description: Error de validación en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Límite de tasa excedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                error: "Internal server error"
+                code: "INTERNAL_ERROR"
+
+  /api/health:
+    get:
+      tags:
+        - System
+      summary: Verificar estado del sistema
+      description: Retorna el estado de salud de todas las APIs y servicios
+      responses:
+        '200':
+          description: Estado del sistema
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        status:
+                          type: string
+                        responseTime:
+                          type: number
+              example:
+                status: "healthy"
+                timestamp: "2024-01-15T10:30:00.000Z"
+                services:
+                  - name: "gemini-api"
+                    status: "healthy"
+                    responseTime: 120
+                  - name: "claude-api"
+                    status: "healthy"
+                    responseTime: 95
+  
+  /api/apis/register:
+    # Definido en las anotaciones del router
+  
+  /api/apis:
+    # Definido en las anotaciones del router
+  
+  /api/apis/health:
+    # Definido en las anotaciones del router
+  
+  /api/apis/health/{apiId}:
